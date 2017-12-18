@@ -23,6 +23,8 @@ private:
 
 	Projectile ball;
 
+	mc::gfx::Text healthDisplay;
+
 	mc::gfx::ProgressBar energyBar = mc::gfx::ProgressBar(0.0f, 1.0f, 0.0f);
 };
 

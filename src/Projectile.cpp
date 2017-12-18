@@ -20,9 +20,9 @@ void Projectile::onUpdate() {
 }
 
 void Projectile::onRender(mc::gfx::Painter & p) {
-	p.rotate(0.0f, 0.0f, 0.1f);
+	p.rotate(0.0f, 0.0f, strength);
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-ball", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/ball.png");
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/ball.png");
 	}), gfx::Enums::TextureSlot::FOREGROUND);
 	p.drawQuad(gfx::Enums::Brush::TEXTURE, gfx::Enums::RenderFeatures::TEXTURE);
 
@@ -39,7 +39,7 @@ void Projectile::onRender(mc::gfx::Painter & p) {
 		setProperty(gfx::Entity::DEAD, true);
 	}
 
-	if (getX() + getWidth() > 1.0f || getY() - getHeight() < -1.0f || getY() + getHeight() > 1.0f) {
+	if (getX() + getWidth() > BOUND_RIGHT || getY() - getHeight() < BOUND_BOT || getY() + getHeight() > BOUND_TOP) {
 		setProperty(gfx::Entity::DEAD, true);
 	}
 }

@@ -1,4 +1,4 @@
-#include "Character.h"
+#include "Character.h"	
 #include "Projectile.h"
 #include "Main.h"
 
@@ -7,11 +7,6 @@
 #define CHARACTER_SPEED_X 0.03f
 #define ACCEL_MAX 0.11f
 #define ACCEL_MIN -0.05f
-
-#define BOUND_BOT -0.8f
-#define BOUND_TOP 1.0f
-#define BOUND_LEFT -1.0f
-#define BOUND_RIGHT 0.8f
 
 using namespace mc;
 
@@ -24,13 +19,16 @@ Character::Character() : gfx::Entity2D(), ball(this, 0.01f) {
 void Character::onInit() {
 	energyBar.setBackgroundTexture(Colors::GRAY);
 	energyBar.setForegroundTexture(Colors::DARK_BLUE);
-	energyBar.setSelectionTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-energy", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/energy.png");
-	}));
+	energyBar.setSelectionTexture(gfx::Texture::getGradient());
 	energyBar.setHeight(0.7f);
 	energyBar.setWidth(0.7f);
 	energyBar.setY(1.5f);
 	addChild(energyBar);
+
+	healthDisplay = gfx::Text("Meme", gfx::Fonts::SANS);
+	healthDisplay.setTexture(Colors::BLACK);
+	healthDisplay.setVerticalAlign(gfx::Enums::VerticalAlign::TOP);
+	getRoot()->addChild(healthDisplay);
 }
 
 void Character::onUpdate() {
@@ -94,7 +92,7 @@ void Character::onUpdate() {
 void Character::onRender(gfx::Painter & p) {
 	p.push();
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-wheels", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/wheels.png");
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/wheels.png");
 	}), gfx::Enums::TextureSlot::FOREGROUND);
 	p.getTransformation().rotation[2] = getX() * 8.0f;
 	p.getTransformation().scaler = { 0.25, 0.25f, 0.0f };
@@ -107,7 +105,7 @@ void Character::onRender(gfx::Painter & p) {
 	p.pop();
 
 	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-robot", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/robot.png");
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/robot.png");
 	}));
 
 	if (ball.getParent() == nullptr) {

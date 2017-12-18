@@ -11,4 +11,3 @@ add_executable(TitanGame ${SRC} ${HEADERS})
 
 target_link_libraries(TitanGame LINK_PUBLIC MACE)
 target_include_directories(TitanGame PUBLIC ${MACE_INCLUDES})
-target_include_directories(TitanGame PUBLIC ${HEADERS})

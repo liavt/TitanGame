@@ -1,0 +1,11 @@
+/home/liavt/Desktop/TitanGame/build/CMakeFiles/edit_cache.dir
+/home/liavt/Desktop/TitanGame/build/CMakeFiles/rebuild_cache.dir
+/home/liavt/Desktop/TitanGame/build/CMakeFiles/TitanGame.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/rebuild_cache.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/edit_cache.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE-Rotations.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE-Cleaning.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE-Text.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE-ProgressBars.dir
+/home/liavt/Desktop/TitanGame/build/MACE/CMakeFiles/MACE-Painting.dir
