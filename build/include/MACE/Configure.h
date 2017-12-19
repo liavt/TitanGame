@@ -29,9 +29,9 @@ Meta variables
 Libraries
 =======================================
 */
-#define MACE_POSIX 1
+/* #undef MACE_POSIX */
 
-/* #undef MACE_WINAPI */
+#define MACE_WINAPI 1
 
 #if !defined(MACE_POSIX) && !defined(MACE_WINAPI)
 #	error "Error in configuration process: this system is unsupported. It must have either windows.h or unistd.h"
@@ -45,8 +45,8 @@ Operating System
 =======================================
 */
 /* #undef MACE_OSX */
-/* #undef MACE_WINDOWS */
-#define MACE_UNIX 1
+#define MACE_WINDOWS 1
+/* #undef MACE_UNIX */
 
 #if !(defined(MACE_OSX)||defined(MACE_WINDOWS)||defined(MACE_UNIX))
 #	error "Error in configuration process: problem detecting valid operating system: couldn't detect system"
@@ -63,7 +63,7 @@ Operating System
 /* #undef MACE_SHARED_LIBS */
 #define MACE_STATIC_LIBS 1
 
-#define MACE_POINTER_SIZE 8
+#define MACE_POINTER_SIZE 4
 
 #if MACE_POINTER_SIZE == 4
 #	define MACE_32_BIT 1
@@ -71,7 +71,7 @@ Operating System
 #	define MACE_64_BIT 1
 #endif
 
-#define MACE_DYNAMIC_LIBRARY_PREFIX lib
-#define MACE_DYNAMIC_LIBRARY_SUFFIX .so
+#define MACE_DYNAMIC_LIBRARY_PREFIX 
+#define MACE_DYNAMIC_LIBRARY_SUFFIX .dll
 
 #endif//MACE_CORE_CONFIGURE_H

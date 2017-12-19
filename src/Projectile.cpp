@@ -22,7 +22,7 @@ void Projectile::onUpdate() {
 void Projectile::onRender(mc::gfx::Painter & p) {
 	p.rotate(0.0f, 0.0f, strength);
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-ball", []() {
-		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/ball.png");
+		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/ball.png");
 	}), gfx::Enums::TextureSlot::FOREGROUND);
 	p.drawQuad(gfx::Enums::Brush::TEXTURE, gfx::Enums::RenderFeatures::TEXTURE);
 

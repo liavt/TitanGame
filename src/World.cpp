@@ -13,11 +13,7 @@ World::World() : mc::gfx::Entity2D() {
 	setHeight(1.0f);
 }
 
-void World::onUpdate() {
-	for (SmartPointer<gfx::Entity> e : getChildren()) {
-		//const gfx::Entity::Metrics met = e->getMetrics();
-	}
-}
+void World::onUpdate() {}
 
 void World::onRender(mc::gfx::Painter & p) {
 	p.setTexture(Colors::GREEN, gfx::Enums::TextureSlot::FOREGROUND);
