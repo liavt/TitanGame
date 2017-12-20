@@ -17,4 +17,6 @@ Character& getCharacter();
 #define BOUND_LEFT -1.0f
 #define BOUND_RIGHT 0.8f
 
+#define RES_PATH "D:/Workspace/TitanGame/res/"
+
 #endif

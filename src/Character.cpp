@@ -28,7 +28,7 @@ void Character::onInit() {
 	healthDisplay = gfx::Text("Meme", gfx::Fonts::SANS);
 	healthDisplay.setTexture(Colors::BLACK);
 	healthDisplay.setVerticalAlign(gfx::Enums::VerticalAlign::TOP);
-	getRoot()->addChild(healthDisplay);
+	addChild(healthDisplay);
 }
 
 void Character::onUpdate() {
@@ -93,9 +93,7 @@ void Character::onUpdate() {
 
 void Character::onRender(gfx::Painter & p) {
 	p.push();
-	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-wheels", []() {
-		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/wheels.png");
-	}), gfx::Enums::TextureSlot::FOREGROUND);
+	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-wheels", MACE_CONCAT(RES_PATH, "wheels.png")));
 	p.getTransformation().rotation[2] = getX() * 8.0f;
 	p.getTransformation().scaler = { 0.25, 0.25f, 0.0f };
 	p.getTransformation().translation = { -0.75f, -0.75f, 0.0f };
@@ -106,9 +104,7 @@ void Character::onRender(gfx::Painter & p) {
 	p.drawQuad(gfx::Enums::Brush::TEXTURE);
 	p.pop();
 
-	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-robot", []() {
-		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/robot.png");
-	}));
+	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-robot", MACE_CONCAT(RES_PATH, "robot.png")));
 
 	if (ball.getParent() == nullptr) {
 		getRoot()->addChild(ball);
