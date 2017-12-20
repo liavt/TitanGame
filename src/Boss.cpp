@@ -1,4 +1,7 @@
 #include "Boss.h"
+#include "Bullet.h"
+
+#include <iostream>
 
 using namespace mc;
 
@@ -24,6 +27,13 @@ void Boss::onUpdate() {
 
 void Boss::onRender(mc::gfx::Painter & p) {
 	p.drawImage(Colors::RED);
+
+	if (gfx::Input::isKeyDown(gfx::Input::Q)) {
+		getParent()->addChild(std::shared_ptr<gfx::Entity>(new AimedBullet(), [](gfx::Entity* e){
+			std::cout << "meme";
+			delete e;	
+		}));
+	}
 }
 
 void Boss::removeHealth(const float h) {

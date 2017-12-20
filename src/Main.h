@@ -3,9 +3,12 @@
 #ifndef TITAN_MAIN_H
 #define TITAN_MAIN_H
 
-#include "Boss.h"
+class Boss;
+class Character;
 
 Boss& getBoss();
+
+Character& getCharacter();
 
 #define GRAVITY 0.01f
 

@@ -16,10 +16,13 @@ public:
 
 	void onRender(mc::gfx::Painter& p) override;
 
+	void removeHealth(const float h);
 private:
 	float accelY = 0.0f, energy;
 
 	bool chargingUp = false;
+
+	float health = 1.0f;
 
 	Projectile ball;
 

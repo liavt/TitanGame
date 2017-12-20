@@ -6,12 +6,26 @@
 
 class Bullet: public mc::gfx::Entity2D {
 public:
-	Bullet();
+	void onUpdate() override;
+private:
+};
+
+class BallBullet: public Bullet {
+public:
+	void onInit() override;
 
 	void onUpdate() override;
 
 	void onRender(mc::gfx::Painter& p) override;
+};
+
+class AimedBullet: public BallBullet {
+public:
+	void onInit() override;
+
+	void onUpdate() override;
 private:
+	float accelX, accelY;
 };
 
 #endif

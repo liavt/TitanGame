@@ -41,3 +41,7 @@ int main() {
 Boss & getBoss() {
 	return boss;
 }
+
+Character & getCharacter() {
+	return character;
+}

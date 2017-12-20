@@ -87,12 +87,14 @@ void Character::onUpdate() {
 
 	energyBar.setProgress(energy);
 	energyBar.setProperty(gfx::Entity::DISABLED, !chargingUp);
+
+	healthDisplay.setText(std::to_wstring(health));
 }
 
 void Character::onRender(gfx::Painter & p) {
 	p.push();
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-wheels", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/wheels.png");
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/wheels.png");
 	}), gfx::Enums::TextureSlot::FOREGROUND);
 	p.getTransformation().rotation[2] = getX() * 8.0f;
 	p.getTransformation().scaler = { 0.25, 0.25f, 0.0f };
@@ -105,14 +107,14 @@ void Character::onRender(gfx::Painter & p) {
 	p.pop();
 
 	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-robot", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/robot.png");
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/robot.png");
 	}));
 
 	if (ball.getParent() == nullptr) {
 		getRoot()->addChild(ball);
 	}
+}
 
-	if (gfx::Input::isKeyDown(gfx::Input::Q)) {
-		addChild(std::shared_ptr<gfx::Entity>(new Projectile(this, 0.5f)));
-	}
+void Character::removeHealth(const float h) {
+	health -= h;
 }

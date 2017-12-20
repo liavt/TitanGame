@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include "Main.h"
+#include "Boss.h"
 
 #include <iostream>
 
@@ -17,19 +18,10 @@ void Projectile::onUpdate() {
 
 	translate(0.01f + (0.07f * strength), accelY);
 
-}
-
-void Projectile::onRender(mc::gfx::Painter & p) {
-	p.rotate(0.0f, 0.0f, strength);
-	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-ball", []() {
-		return gfx::Texture::createFromFile("D:/Workspace/TitanGame/res/ball.png");
-	}), gfx::Enums::TextureSlot::FOREGROUND);
-	p.drawQuad(gfx::Enums::Brush::TEXTURE, gfx::Enums::RenderFeatures::TEXTURE);
-
 	const TransformMatrix bossTransform = getBoss().getTransformation();
 
-	const Vector4f bossAABB = Vector4f({ bossTransform.translation.x(), bossTransform.translation.y(), bossTransform.scaler.x(), bossTransform.scaler.y() });
-	const Vector4f projAABB = Vector4f({ getX(), getY(), getWidth(), getHeight() });
+	const Vector4f bossAABB = Vector4f({ bossTransform.translation.x() * 0.5f + 0.5f, bossTransform.translation.y() * 0.5f + 0.5f, bossTransform.scaler.x(), bossTransform.scaler.y() });
+	const Vector4f projAABB = Vector4f({ getX() * 0.5f + 0.5f, getY() * 0.5f + 0.5f, getWidth(), getHeight() });
 
 	if (projAABB.x() < bossAABB.x() + bossAABB.z() &&
 		projAABB.x() + projAABB.z() > bossAABB.x() &&
@@ -42,4 +34,12 @@ void Projectile::onRender(mc::gfx::Painter & p) {
 	if (getX() + getWidth() > BOUND_RIGHT || getY() - getHeight() < BOUND_BOT || getY() + getHeight() > BOUND_TOP) {
 		setProperty(gfx::Entity::DEAD, true);
 	}
+}
+
+void Projectile::onRender(mc::gfx::Painter & p) {
+	p.rotate(0.0f, 0.0f, strength);
+	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTexture("TitanGame-ball", []() {
+		return gfx::Texture::createFromFile("/home/liavt/Desktop/TitanGame/res/ball.png");
+	}), gfx::Enums::TextureSlot::FOREGROUND);
+	p.drawQuad(gfx::Enums::Brush::TEXTURE, gfx::Enums::RenderFeatures::TEXTURE);
 }
