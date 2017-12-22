@@ -10,9 +10,11 @@ Character character = Character();
 World world = World();
 Boss boss = Boss();
 
+bool playing = true;
+
 void create(gfx::WindowModule& win) {
 	win.getContext()->getRenderer()->setRefreshColor(Colors::LIGHT_BLUE);
-
+	
 	world.addChild(character);
 	world.addChild(boss);
 	win.addChild(world);
@@ -22,6 +24,7 @@ int main() {
 	Instance instance = Instance();
 	try {
 		gfx::WindowModule::LaunchConfig config = gfx::WindowModule::LaunchConfig(600, 600, "Nick Sux");
+		config.resizable = true;
 		config.onCreate = &create;
 
 		gfx::WindowModule module = gfx::WindowModule(config);
@@ -44,4 +47,8 @@ Boss & getBoss() {
 
 Character & getCharacter() {
 	return character;
+}
+
+bool& isPlaying() {
+	return playing;
 }

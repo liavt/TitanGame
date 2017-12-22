@@ -1,4 +1,5 @@
 #include "World.h"
+#include "Main.h"
 
 #include <iostream>
 
@@ -16,6 +17,7 @@ World::World() : mc::gfx::Entity2D() {
 void World::onUpdate() {}
 
 void World::onRender(mc::gfx::Painter & p) {
+	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-tower", RES_PATH "tower.png"));
 	p.setTexture(Colors::GREEN, gfx::Enums::TextureSlot::FOREGROUND);
 	p.setForegroundColor(Colors::GREEN);
 	for (Index i = 0; i < os::getArraySize(platforms); ++i) {

@@ -10,6 +10,8 @@ Boss& getBoss();
 
 Character& getCharacter();
 
+bool& isPlaying();
+
 #define GRAVITY 0.01f
 
 #define BOUND_BOT -0.8f
@@ -17,6 +19,6 @@ Character& getCharacter();
 #define BOUND_LEFT -1.0f
 #define BOUND_RIGHT 0.8f
 
-#define RES_PATH "D:/Workspace/TitanGame/res/"
+#define RES_PATH ""
 
 #endif

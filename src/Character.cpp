@@ -10,10 +10,9 @@
 
 using namespace mc;
 
-Character::Character() : gfx::Entity2D(), ball(this, 0.01f) {
+Character::Character() : gfx::Entity2D() {
 	setWidth(0.2f);
-	setHeight(0.2f);
-	ball.setProperty(gfx::Entity::DEAD, true);
+	setHeight(0.1f);
 }
 
 void Character::onInit() {
@@ -22,13 +21,17 @@ void Character::onInit() {
 	energyBar.setSelectionTexture(gfx::Texture::getGradient());
 	energyBar.setHeight(0.7f);
 	energyBar.setWidth(0.7f);
-	energyBar.setY(1.5f);
+	energyBar.setY(2.5f);
 	addChild(energyBar);
 
-	healthDisplay = gfx::Text("Meme", gfx::Fonts::SANS);
-	healthDisplay.setTexture(Colors::BLACK);
-	healthDisplay.setVerticalAlign(gfx::Enums::VerticalAlign::TOP);
-	addChild(healthDisplay);
+	healthBar.setBackgroundTexture(Colors::GRAY);
+	healthBar.setForegroundTexture(Colors::GREEN);
+	healthBar.setSelectionTexture(gfx::Texture::createFromFile(RES_PATH "gradient.png", gfx::Enums::ImageFormat::LUMINANCE));
+	healthBar.setHeight(0.2f);
+	healthBar.setY(1.2f);
+	addChild(healthBar);
+
+	healthBar.setProgress(1.0f);
 }
 
 void Character::onUpdate() {
@@ -37,37 +40,37 @@ void Character::onUpdate() {
 	}
 
 
-	if (gfx::Input::isKeyDown(gfx::Input::D)) {
-		translate(CHARACTER_SPEED_X, 0.0f);
-	}
+	if (isPlaying()) {
+		if (gfx::Input::isKeyDown(gfx::Input::D)) {
+			translate(CHARACTER_SPEED_X, 0.0f);
+		}
 
-	if (gfx::Input::isKeyDown(gfx::Input::A)) {
-		translate(-CHARACTER_SPEED_X, 0.0f);
-	}
+		if (gfx::Input::isKeyDown(gfx::Input::A)) {
+			translate(-CHARACTER_SPEED_X, 0.0f);
+		}
 
-	accelY -= GRAVITY;
+		accelY -= GRAVITY;
 
-	if (accelY > ACCEL_MAX) {
-		accelY = ACCEL_MAX;
-	} else if (accelY < ACCEL_MIN) {
-		accelY = ACCEL_MIN;
-	}
+		if (accelY > ACCEL_MAX) {
+			accelY = ACCEL_MAX;
+		} else if (accelY < ACCEL_MIN) {
+			accelY = ACCEL_MIN;
+		}
 
-	translate(0.0f, accelY);
+		translate(0.0f, accelY);
 
-	if (getY() - getHeight() < BOUND_BOT) {
-		setY(BOUND_BOT + getHeight());
-	} else if (getY() + getHeight() > BOUND_TOP) {
-		setY(BOUND_TOP - getHeight());
-	}
+		if (getY() - getHeight() < BOUND_BOT) {
+			setY(BOUND_BOT + getHeight());
+		} else if (getY() + getHeight() > BOUND_TOP) {
+			setY(BOUND_TOP - getHeight());
+		}
 
-	if (getX() - getWidth() < BOUND_LEFT) {
-		setX(BOUND_LEFT + getWidth());
-	} else if (getX() + getWidth() > BOUND_RIGHT) {
-		setX(BOUND_RIGHT - getWidth());
-	}
+		if (getX() - getWidth() < BOUND_LEFT) {
+			setX(BOUND_LEFT + getWidth());
+		} else if (getX() + getWidth() > BOUND_RIGHT) {
+			setX(BOUND_RIGHT - getWidth());
+		}
 
-	if (!ball.getProperty(gfx::Entity::INIT)) {
 		if (!chargingUp && gfx::Input::isKeyDown(gfx::Input::SPACE)) {
 			chargingUp = true;
 		}
@@ -77,26 +80,36 @@ void Character::onUpdate() {
 				energy += 0.025f;
 			}
 		}
-
-		if (chargingUp && gfx::Input::isKeyReleased(gfx::Input::SPACE)) {
-			ball = Projectile(this, energy);
-			energy = 0.0f;
-			chargingUp = false;
-		}
 	}
 
 	energyBar.setProgress(energy);
 	energyBar.setProperty(gfx::Entity::DISABLED, !chargingUp);
 
-	healthDisplay.setText(std::to_wstring(health));
+	Color& foregroundTexture = healthBar.getForegroundTexture().getHue();
+
+	if (healthBar.getProgress() != health) {
+		foregroundTexture.r = 1.0f;
+		foregroundTexture.g = 0.0f;
+		healthBar.setProgress(health);
+	}
+
+	if (foregroundTexture.r > 0.0f) {
+		foregroundTexture.r -= 0.1f;
+	}
+
+	if (foregroundTexture.g < 0.7f) {
+		foregroundTexture.g += 0.1f;
+	}
+
 }
 
 void Character::onRender(gfx::Painter & p) {
 	p.push();
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-wheels", MACE_CONCAT(RES_PATH, "wheels.png")));
 	p.getTransformation().rotation[2] = getX() * 8.0f;
-	p.getTransformation().scaler = { 0.25, 0.25f, 0.0f };
+	p.getTransformation().scaler = { 0.35f, 0.35f, 0.0f };
 	p.getTransformation().translation = { -0.75f, -0.75f, 0.0f };
+	p.disableRenderFeatures(gfx::Enums::RenderFeatures::INHERIT_SCALE);
 	p.drawQuad(gfx::Enums::Brush::TEXTURE);
 	p.translate(0.75f, 0.0f);
 	p.drawQuad(gfx::Enums::Brush::TEXTURE);
@@ -106,8 +119,15 @@ void Character::onRender(gfx::Painter & p) {
 
 	p.drawImage(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-robot", MACE_CONCAT(RES_PATH, "robot.png")));
 
-	if (ball.getParent() == nullptr) {
-		getRoot()->addChild(ball);
+	if (chargingUp && gfx::Input::isKeyReleased(gfx::Input::SPACE)) {
+		getParent()->addChild(std::shared_ptr<gfx::Entity>(new Projectile(this, energy)));
+		energy = 0.0f;
+		chargingUp = false;
+	}
+
+	if (health <= 0.0f) {
+		getRoot()->addChild(std::shared_ptr<gfx::Entity>(new gfx::Text("YOU LOSE", gfx::Fonts::SANS)));
+		isPlaying() = false;
 	}
 }
 

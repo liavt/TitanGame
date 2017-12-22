@@ -32,12 +32,12 @@ void Bullet::onUpdate() {
 void BallBullet::onInit() {
 	setWidth(0.05f);
 	setHeight(0.05f);
-	setY(-0.7f);
-	setX(0.6f);
+	setY(-0.75f);
+	setX(0.7f);
 }
 
 void BallBullet::onUpdate(){
-	translate(-0.03f, 0.0f);
+	translate(-0.02f, 0.0f);
 
 	Bullet::onUpdate();
 }
@@ -45,7 +45,7 @@ void BallBullet::onUpdate(){
 void BallBullet::onRender(gfx::Painter& p){
 	p.rotate(0.0f, 0.0f, -0.25f);
 	p.setTexture(gfx::getCurrentWindow()->getContext()->getOrCreateTextureFromFile("TitanGame-ball", MACE_CONCAT(RES_PATH, "ball.png")));
-	p.enableRenderFeatures(gfx::Enums::RenderFeatures::DISCARD_INVISIBLE);
+	p.disableRenderFeatures(gfx::Enums::RenderFeatures::STORE_ID | gfx::Enums::RenderFeatures::DISCARD_INVISIBLE);
 	p.drawQuad(gfx::Enums::Brush::TEXTURE);
 }
 
@@ -63,9 +63,7 @@ void AimedBullet::onInit() {
 	const float tangent = std::atan2(distanceX, distanceY);
 
 	accelX = -0.05f * tangent;
-	accelY = -0.05f * (2.0f - tangent);
-
-	std::cout << std::atan2(distanceX, distanceY) << std::endl;
+	accelY = -0.05f * (1.5f - tangent);
 }
 
 void AimedBullet::onUpdate(){
